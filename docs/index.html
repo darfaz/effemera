@@ -31,6 +31,17 @@
     </div>
   </nav>
 
+  <!-- MOBILE NAV OVERLAY -->
+  <div class="mobile-nav-overlay" id="mobile-nav">
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close">×</button>
+    <a href="#experiences" class="mobile-nav-link">Experiences</a>
+    <a href="#how" class="mobile-nav-link">How It Works</a>
+    <a href="#pricing" class="mobile-nav-link">Pricing</a>
+    <a href="https://www.effemerazine.com/shop" target="_blank">The Zine</a>
+    <a href="#faq" class="mobile-nav-link">FAQ</a>
+    <a href="#book" class="btn btn-primary mobile-nav-link">Book Now</a>
+  </div>
+
   <!-- HERO — fullscreen BandJam style -->
   <section class="hero">
     <div class="hero-bg">
@@ -423,11 +434,23 @@
 
   <script>
     const nav = document.getElementById('nav');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileClose = document.getElementById('mobile-nav-close');
+
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), { passive: true });
+
+    mobileMenu.addEventListener('click', () => mobileNav.classList.add('open'));
+    mobileClose.addEventListener('click', () => mobileNav.classList.remove('open'));
+    document.querySelectorAll('.mobile-nav-link').forEach(a => {
+      a.addEventListener('click', () => mobileNav.classList.remove('open'));
+    });
+
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
     document.querySelectorAll('.faq-question').forEach(q => {
       q.addEventListener('click', () => {
         const item = q.parentElement;
@@ -435,6 +458,7 @@
         item.classList.toggle('active');
       });
     });
+
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth' }); });
     });
